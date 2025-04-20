@@ -1,0 +1,205 @@
+<!-- -->
+<!--xmlns: Define el namespace por defecto del documento. Esto indica que todos los elementos dentro del archivo están definidos bajo ese espacio de nombres de Maven (específicamente, la versión 4.0.0 del modelo de objetos del proyecto, o POM: Project Object Model).Así, cuando el archivo se analiza, se sabe qué etiquetas son válidas (<project>, <dependencies>, <build>, etc.) y en qué orden o jerarquía se pueden usar. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--Datos del proyecto -->
+    <groupId>com.tallerwebi</groupId><!--Identifica el grupo o empresa/desarrollador del proyecto (como un namespace) -->
+    <artifactId>tallerwebi-base</artifactId><!--El nombre del proyecto -->
+    <packaging>war</packaging><!--Se empaquetará como un .war (Web Application Archive), porque es una aplicación web. Solo si la app se ejecuta con un servidor real instalado. Como en este caso utilizamos jetty:run, Maven lo que hace es armar tod'o desde la carpeta en mi pc C:\Users\User\IdeaProjects\tallerwebi-base-main-->
+    <version>1.0-SNAPSHOT</version><!-- La versión actual, SNAPSHOT indica que aún está en desarrollo -->
+    <name>spring web mvc</name><!--Nombre descriptivo del proyecto -->
+
+
+    <!--Properties: Sirven para centralizar versiones y evitar repetirlas en muchas partes. Por ejemplo: <spring.version>5.2.22.RELEASE</spring.version>
+    Después, podés usar ${spring.version} en cualquier parte del pom.
+    Esto hace el mantenimiento más fácil: si querés cambiar de versión, solo lo hacés una vez acá. -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdk.version>11</jdk.version>
+        <spring.version>5.2.22.RELEASE</spring.version>
+        <servletapi.version>4.0.4</servletapi.version>
+        <thymeleaf.spring.version>3.0.15.RELEASE</thymeleaf.spring.version>
+        <webjars.version>5.2.0</webjars.version>
+        <hamcrest.version>2.2</hamcrest.version>
+        <junit.version>5.9.0</junit.version>
+        <mockito.version>5.3.1</mockito.version>
+        <hibernate.version>5.4.24.Final</hibernate.version>
+        <playwright.version>1.36.0</playwright.version>
+        <hsqldb.version>2.3.2</hsqldb.version>
+    </properties>
+
+
+
+    <!--Dependencies: se declaran todas las librerías que el proyecto necesita para funcionar, divididas en grupos según su uso: -->
+    <!--Spring Framework: spring-webmvc, spring-orm, spring-jdbc: para manejar controladores web MVC, ORM (Hibernate) y acceso JDBC. -->
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- Base de datos embebida: hsqldb: base de datos ligera usada frecuentemente para pruebas-->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${hsqldb.version}</version>
+        </dependency>
+        <!-- Vista: thymeleaf-spring5: motor de plantillas para renderizar HTML.
+        bootstrap (webjars): librería CSS/JS para frontend, empaquetada como dependencia Maven. -->
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring5</artifactId>
+            <version>${thymeleaf.spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${webjars.version}</version>
+        </dependency>
+        <!--Servlet API: jakarta.servlet-api: necesaria para crear aplicaciones web. Está con scope: provided, porque el servidor (Jetty) ya la provee en tiempo de ejecución. -->
+        <!-- La etiqueta <scope> indica en qué momento del ciclo de vida del proyecto se necesita esa dependencia y cómo se comporta en el proyecto (si se incluye o no en el build, en los tests, etc.). -->
+        <!--<scope>provided</scope> Significa que la dependencia es necesaria para compilar y testear, pero no se empaqueta con el proyecto (por ejemplo, en un .war o .jar final), porque el entorno donde se despliegue ya la va a proveer -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${servletapi.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--Testing: spring-test, junit-jupiter-engine, mockito-core, hamcrest-core: tod'o lo necesario para testear el proyecto con JUnit 5 y Mockito. Playwright: herramienta moderna para testing de interfaces web. -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--Hibernate es un framework que facilita la interacción entre una base de datos relacional (como MySQL, PostgreSQL, Oracle, etc.) y la aplicación Java. Su principal objetivo es mapear objetos Java a registros de una base de datos y viceversa. Esto permite trabajar con objetos Java de manera más sencilla, en lugar de escribir consultas SQL complejas. -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>playwright</artifactId>
+            <version>${playwright.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.4</version>
+        </dependency>
+
+        <!-- compile only, deployed container will provide this -->
+        <!--
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servletapi.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        -->
+        <!--Generate (alt+insert), Dependency. Luego hacer un reload o load project, en la viñeta flotante que aparece, para que se agreguen las librerias necesarias en External Libraries-->
+
+    </dependencies>
+
+
+    <!--Build: se utiliza para definir cómo se debe construir (o compilar) el proyecto. Dentro de esta etiqueta, puedes especificar diversos detalles sobre el proceso de construcción, como los plugins a usar, configuraciones de compilación, empaquetado, y otras tareas relacionadas. -->
+    <!--Los plugins son componentes que extienden y personalizan las capacidades del sistema de construcción. Los plugins permiten realizar tareas específicas durante el ciclo de vida de construcción del proyecto, como compilar código, ejecutar pruebas, empaquetar el proyecto, generar documentación, etc. -->
+    <build>
+
+        <plugins>
+            <!--Compila el código con la versión de Java que se definió en las propiedades (version de JDK)-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+
+            <!-- Plugin para ejecutar las pruebas -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version> <!-- Ajusta la versión según tus necesidades -->
+
+                <configuration>
+                    <!-- Configuración específica para las pruebas -->
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.45.v20220203</version>
+                <configuration>
+                    <scanIntervalSeconds>2</scanIntervalSeconds>
+                    <httpConnector>
+                        <port>8080</port>
+                    </httpConnector>
+                    <webApp>
+                        <contextPath>/spring</contextPath>
+                    </webApp>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
