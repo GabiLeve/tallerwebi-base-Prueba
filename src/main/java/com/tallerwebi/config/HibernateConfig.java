@@ -14,6 +14,8 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class HibernateConfig {
 
+
+    /*con @Bean se crea un objeto concreto de tipo DataSource (en este caso, una instancia de DriverManagerDataSource)*/
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -24,6 +26,11 @@ public class HibernateConfig {
         return dataSource;
     }
 
+    /* 1.Crea y configura un SessionFactory, que es el corazón de Hibernate: el objeto que se encarga de generar sesiones para interactuar con la base de datos.
+
+    2. Usa como base el DataSource (definido arriba), es decir, le dice a Hibernate dónde está la base de datos y cómo conectarse.
+
+    3.También se le dice que escanee las clases del paquete com.tallerwebi.dominio, donde están tus entidades.*/
     @Bean
     public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
@@ -33,6 +40,8 @@ public class HibernateConfig {
         return sessionFactory;
     }
 
+    /*Crea un HibernateTransactionManager, que es quien se encarga de manejar las transacciones (begin, commit, rollback) cuando accedés a la base de datos con Hibernate.
+    Usa el SessionFactory para saber cómo manejar esas transacciones.*/
     @Bean
     public HibernateTransactionManager transactionManager() {
         return new HibernateTransactionManager(sessionFactory(dataSource()).getObject());

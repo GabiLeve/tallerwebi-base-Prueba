@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 @Configuration
 public class DatabaseInitializationConfig {
 
+    /*con @Autowired, Spring inyecta automáticamente el OBJETO DataSourse definido con @Bean*/
     @Autowired
     private DataSource dataSource;
 
