@@ -31,6 +31,7 @@ public class ControladorLogin {
         return new ModelAndView("login", modelo);
     }
 
+    /*
     @RequestMapping(path = "/miPrueba", method = RequestMethod.GET)
     public ModelAndView irAMiPrueba() {
 
@@ -43,7 +44,7 @@ public class ControladorLogin {
 
         return new ModelAndView("estas-adentro", model);
     }
-
+*/
 
 
     @RequestMapping(path = "/validar-login", method = RequestMethod.POST)
