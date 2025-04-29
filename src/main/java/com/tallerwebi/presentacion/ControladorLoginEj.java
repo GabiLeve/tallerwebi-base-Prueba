@@ -12,6 +12,6 @@ public class ControladorLoginEj {
     @RequestMapping("/verVistaLogin")
     public ModelAndView mostrarLogin(){
 
-        return null;
+        return new ModelAndView("vistaLogin"); //se crea un objeto ModelAndView con el nombre "vistaLogin". Aca spring se encarga de armar la ruta a la vista. Configurado en SpringWebConfirg.java
     }
 }
