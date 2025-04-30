@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <nav th:fragment="menu-oyente">
+    <div>
+      <button type="button">Menu</button>
+    </div>
+    <div>
+      <ul>
+        <li><a th:href="@{/playlist}">Playlist</a></li>
+        <li><a th:href="@{/historial}">Historial</a></li>
+        <li><a th:href="@{/favoritos}">Favoritos</a></li>
+        <li><a th:href="@{/albumes}">Álbumes</a></li>
+        <li><a th:href="@{/artistas}">Artistas</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <nav th:fragment="menu-artista">
+    <div>
+      <button type="button">Menu</button>
+    </div>
+    <div>
+      <ul>
+        <li><a th:href="@{/puntajes}">Puntajes</a></li>
+        <li><a th:href="@{/estadisticas}">Estadísticas</a></li>
+        <li><a th:href="@{/letras}">Letras de canciones</a></li>
+        <li><a th:href="@{/canciones}">Canciones</a></li>
+        <li><a th:href="@{/albumes}">Álbumes</a></li>
+      </ul>
+    </div>
+  </nav>
+
+</body>
+</html>
