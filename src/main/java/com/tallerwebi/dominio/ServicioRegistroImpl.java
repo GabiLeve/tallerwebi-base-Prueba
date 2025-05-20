@@ -11,7 +11,7 @@ public class ServicioRegistroImpl implements ServicioRegistro{
     @Override
     public Usuario registrar(String email, String password) {
         if(password.length()<5){
-            return null;
+            throw new PasswordLongitudIncorrectaException();
         }
         return new Usuario();
     }

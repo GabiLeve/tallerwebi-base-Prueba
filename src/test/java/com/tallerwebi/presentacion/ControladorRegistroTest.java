@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.PasswordLongitudIncorrectaException;
 import com.tallerwebi.dominio.ServicioRegistro;
 import com.tallerwebi.dominio.Usuario;
 import org.junit.jupiter.api.Test;
@@ -8,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 
 @Controller
@@ -81,8 +82,23 @@ public class ControladorRegistroTest {
     @Test
     public void siLaPasswordTieneMenosDeCincoCaracteresFalla(){
         givenNoExisteUsuario();
+        // Seteo el comportamiento del mock (servicioRegistro) "lanzar esta excepcion cuando se ejecute este codigo"
+        doThrow(PasswordLongitudIncorrectaException.class).when(servicioRegistro)
+                .registrar("email@email.com", "1234");
+
         ModelAndView mav = whenRegistroUsuario("email@email.com", "1234");
         thenElRegistroFalla(mav, "La password debe tener al menos cinco caracteres");
+
+        // ejemplo: "retornar un Usuario cuando se ejecute este codigo"
+        //when(servicioRegistro.registrar(email, password).thenReturn(new Usuario()));
+
+        // ejemplo: "retornar un Usuario cuando se ejecute este codigo"
+        //when(servicioRegistro.registrar(email, password).thenReturn(null));
+
+        // ejemplo (como esta hecho pero esta es otra forma):
+        //"retornar una excepcion cuando se ejecute este codigo"
+        //when(servicioRegistro.registrar(email, password).thenThrow(PasswordLongitudIncorrectaException.class));
+
     }
 
 

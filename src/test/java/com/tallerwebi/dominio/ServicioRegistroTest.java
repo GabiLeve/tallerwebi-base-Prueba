@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class ServicioRegistroTest {
@@ -38,11 +39,14 @@ public class ServicioRegistroTest {
     @Test
     public void siLaPasswordTieneMenosDeCincoCaracteresFalla(){
         givenUsuarioNoExiste();
-        Usuario usuarioCreado = whenRegistroUsuario("email@email.com", "1234");
-        thenRegistroFalla(usuarioCreado);
+        assertThrows(PasswordLongitudIncorrectaException.class, ()-> // vas a lanzar una exceopcion Password(...)
+                whenRegistroUsuario("email@email.com", "1234") ); // cuando ejecutes este codigo
+        //Usuario usuarioCreado = whenRegistroUsuario("email@email.com", "1234");
+       // thenRegistroFalla(usuarioCreado);
     }
 
     private void thenRegistroFalla(Usuario usuarioCreado) {
+
         assertThat(usuarioCreado, is(nullValue()));
     }
 
