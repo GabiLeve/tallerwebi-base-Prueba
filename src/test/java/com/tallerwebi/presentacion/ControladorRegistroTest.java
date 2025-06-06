@@ -24,6 +24,7 @@ public class ControladorRegistroTest {
     private String password = "123";
 
     ServicioRegistro servicioRegistro = mock(ServicioRegistro.class);
+    ControladorRegistro controladorRegistro = new ControladorRegistro(servicioRegistro);
 
     //en este test definimos que la manera de contrastar que el registro fue exitoso es si devuelve una vista llamada 'login', porque nos planteamos que es lo que el usuario deberia ver que sucede luego de que se registrara correctamente. Y generalmente, una vez completado el registro, el nuevo usuario es redireccionado a la vosta del 'login' para que ingrese con las credenciales recien creadas
     @Test
@@ -61,7 +62,7 @@ public class ControladorRegistroTest {
     //Quiero probar una clase controladora, por lo que para testearla voy a necesitar un objeto controlador que pertenezca a esa clase. ¿quien va a registrar el usuario? --> un controlador
 
     private ModelAndView whenRegistroUsuario(String email, String password) {
-        ControladorRegistro controladorRegistro = new ControladorRegistro(servicioRegistro);
+
         //supongo que mi objeto tendria que tener un metodo que me permita registrar
         //que dato puede necesitar este metodo registrar()
         //Todoo metodo de un controlador, por ser un action, devuelve un ModelAndView
@@ -85,7 +86,7 @@ public class ControladorRegistroTest {
         // Seteo el comportamiento del mock (servicioRegistro) "lanzar esta excepcion cuando se ejecute este codigo"
         doThrow(PasswordLongitudIncorrectaException.class).when(servicioRegistro)
                 .registrar("email@email.com", "1234");
-
+        //esto es asi: cuando en el metodo crearCancion del Controlador se ejecute try{servicioRegistro.registrar(email, password); No se llama al servicio original, si no que directamente se lanza la excepcion que se preparo en el test con Mokito. Se obliga a entrar al flujo 'catch' al hacer lanzado la excepcion. Luego en las dos lineas siguientes se testea el comportamiento real del Controlador con datos reales para test
         ModelAndView mav = whenRegistroUsuario("email@email.com", "1234");
         thenElRegistroFalla(mav, "La password debe tener al menos cinco caracteres");
 
