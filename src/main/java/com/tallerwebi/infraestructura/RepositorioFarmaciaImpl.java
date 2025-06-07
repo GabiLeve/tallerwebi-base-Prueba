@@ -62,9 +62,12 @@ public class RepositorioFarmaciaImpl implements RepositorioFarmacia {
 
     @Override
     public List<Farmacia> buscarFarmaciasPorLocalidad(Localidad localidad) {
-//        var session = sessionFactory.getCurrentSession();
-//        return session.createCriteria(Farmacia.class)
-        return List.of();
+        var session = sessionFactory.getCurrentSession();
+        return session.createCriteria(Farmacia.class)
+                .createAlias("direccion", "d")
+                .add(Restrictions.eq("d.localidad", localidad))
+                .list();
+
     }
 
 }

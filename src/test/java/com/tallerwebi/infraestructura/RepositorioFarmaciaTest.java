@@ -151,7 +151,6 @@ public class RepositorioFarmaciaTest {
     }
 
     private List<Farmacia> whenBuscoFarmaciaPorLocalidad(Localidad localidad) {
-        List<Farmacia> farmacias = repo.buscarFarmaciasPorLocalidad(localidad);
-        return farmacias;
+        return repo.buscarFarmaciasPorLocalidad(localidad);
     }
 }
